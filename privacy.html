@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>プライバシーポリシー - Bookmark Vault</title>
+  <style>
+    :root{--fg:#0b0c0f;--bg:#fff;--muted:#5f6570;--card:#f7f8fa}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+      font:16px/1.65 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+    .wrap{max-width:860px;margin:32px auto;padding:0 16px}
+    h1{font-size:28px;margin:0 0 8px}
+    .muted{color:var(--muted)}
+    h2{margin-top:28px;font-size:20px}
+    code{background:var(--card);padding:2px 6px;border-radius:6px}
+    ul{margin:12px 0 12px 20px}
+    .card{background:var(--card);padding:14px;border-radius:12px}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>プライバシーポリシー</h1>
+    <div class="muted">最終更新日: 2025-09-10</div>
+
+    <p><b>Bookmark Vault</b>（以下「本拡張」）は、ユーザーのブックマークを<strong>端末内のみ</strong>で安全に管理することを目的としています。
+    本拡張はユーザーデータを外部へ送信せず、サーバーとも通信しません。</p>
+
+    <h2>1. 収集する情報</h2>
+    <p>本拡張は、個人を特定できる情報を<strong>収集しません</strong>。解析・広告・トラッキングは実施しません。</p>
+
+    <h2>2. データの保存と暗号化</h2>
+    <ul>
+      <li>保存場所: <code>chrome.storage.local</code>（ユーザーの端末内）</li>
+      <li>暗号化: Web Crypto API を用い、ユーザーが設定した PIN から導出した鍵でデータ（タイトル・URL 等）を暗号化して保存します。</li>
+      <li>送信: データを開発者または第三者へ送信・共有することはありません。</li>
+    </ul>
+
+    <h2>3. 要求する権限と用途</h2>
+    <div class="card">
+      <ul>
+        <li><b>storage</b>：拡張データの端末内保存に使用</li>
+        <li><b>bookmarks</b>：Chrome 既存ブックマークの「取り込み」にのみ使用（閲覧・選択・コピー）</li>
+        <li><b>tabs</b>：アクティブタブのタイトル/URL を取得して「このページを追加」に使用。リンクを新規タブで開く操作にも使用</li>
+      </ul>
+    </div>
+
+    <h2>4. データの保持と削除</h2>
+    <ul>
+      <li>データは端末内に保持され、ユーザーが設定メニューからリセットすることで削除できます。</li>
+      <li>拡張のアンインストール時、ブラウザに残るデータはブラウザの仕様に従います。</li>
+    </ul>
+
+    <h2>5. 子どものプライバシー</h2>
+    <p>本拡張は13歳未満の児童を対象としていません。</p>
+
+    <h2>6. ポリシーの更新</h2>
+    <p>内容を更新する場合は、本ページの「最終更新日」を改定します。</p>
+
+    <h2>7. お問い合わせ</h2>
+    <p>ご質問があれば、開発者連絡先: <a href="mailto:you@example.com">you@example.com</a> までご連絡ください。</p>
+
+    <p class="small">※ 本拡張の名称: <b>Bookmark Vault</b></p>
+  </main>
+</body>
+</html>
