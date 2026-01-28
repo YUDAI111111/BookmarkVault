@@ -1,0 +1,333 @@
+:root{
+  /* light */
+  --bg:#fff; --fg:#0b0c0f; --muted:#5f6570;
+  --card:#f7f8fa; --card-border:#e5e8ef;
+  --panel:#fff; --panel-border:#e5e8ef; --hover:#f1f3f7;
+  --input-bg:#fff; --input-border:#d6dbe6;
+  /* dark */
+  --dbg:#0b0b0c; --dfg:#e9eaee; --dmuted:#9aa1ae;
+  --dcard:#111216; --dcard-border:#1d2026;
+  --dpanel:#0e1117; --dpanel-border:#262a33;
+  --dinput-bg:#0f1115; --dinput-border:#262a33;
+  /* misc */
+  --primary:#4f46e5; --danger:#b42318; --radius:12px;
+}
+
+body.theme-light{background:var(--bg);color:var(--fg);}
+body.theme-dark{background:var(--dbg);color:var(--dfg);}
+*{box-sizing:border-box}
+body{font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-width:380px;margin:0;padding:12px}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:12px}
+body.theme-dark .card{background:var(--dcard);border-color:var(--dcard-border)}
+h1{font-size:15px;margin:0 0 10px}
+
+input[type="text"],input[type="password"],input[type="search"],select{
+  width:100%;padding:10px 12px;border-radius:10px;background:var(--input-bg);
+  border:1px solid var(--input-border);color:inherit;outline:none;transition:border .15s,background .15s,box-shadow .15s}
+body.theme-dark input[type="text"],body.theme-dark input[type="password"],body.theme-dark input[type="search"],body.theme-dark select{
+  background:var(--dinput-bg);border-color:var(--dinput-border)}
+input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 20%,transparent)}
+input[type="range"]{width:100%}
+
+button{
+  padding:8px 12px;border-radius:10px;border:1px solid color-mix(in srgb,currentColor 12%,transparent);
+  background:color-mix(in srgb,currentColor 6%,transparent);color:inherit;cursor:pointer;transition:transform .05s,background .15s,box-shadow .15s}
+button:hover{background:color-mix(in srgb,currentColor 10%,transparent)}
+button:active{transform:translateY(1px)}
+button.primary{border-color:color-mix(in srgb,var(--primary) 60%,transparent);background:var(--primary);color:#fff}
+button.danger{border-color:color-mix(in srgb,var(--danger) 60%,transparent);background:var(--danger);color:#fff}
+button.ghost{background:transparent;border-color:transparent}
+
+.row{display:flex;align-items:center;gap:8px}
+.row.between{justify-content:space-between}
+.row.gap{gap:6px}
+.mt{margin-top:8px}
+.field{display:block;margin:10px 0}
+.muted{color:var(--muted)}
+body.theme-dark .muted{color:var(--dmuted)}
+.msg{color:#d92d20;min-height:1.2em}
+.icon-btn{width:32px;height:32px;padding:0;display:grid;place-items:center;border-radius:10px}
+
+/* sticky header (戻る) */
+.sticky-top{
+  position:sticky;top:-12px;background:inherit;padding:8px 0 6px;margin:-12px -12px 8px;
+  border-bottom:1px solid var(--card-border);display:flex;align-items:center;gap:8px;
+  padding-left:12px;padding-right:12px
+}
+body.theme-dark .sticky-top{border-bottom-color:var(--dcard-border)}
+
+/* パネル */
+.panel{border:1px solid var(--panel-border);background:var(--panel);border-radius:var(--radius);padding:8px;margin-top:10px}
+body.theme-dark .panel{background:var(--dpanel);border-color:var(--dpanel-border)}
+
+/* パンくず */
+.crumbs-wrap{margin-top:8px}
+.crumbs{display:flex;gap:6px;align-items:center;font-size:12px}
+.crumbs .crumb{padding:4px 8px;border:1px solid var(--panel-border);border-radius:999px;background:var(--panel);cursor:pointer}
+.crumbs .sep{opacity:.5}
+
+/* 検索欄（設定でtoggle） */
+.search-wrap{min-width:160px}
+.search-wrap[hidden]{display:none}
+
+/* リスト（Vault本体） */
+.list{display:grid;grid-template-columns:1fr;gap:8px}
+.item{
+  position:relative;
+  display:grid;
+  grid-template-columns:36px 1fr 32px; /* 右端の枠に貼り付き過ぎない */
+  align-items:center;gap:10px;
+  padding:10px 12px;border:1px solid var(--panel-border);border-radius:10px;background:var(--panel);
+  transition:background .12s,border-color .12s,box-shadow .12s
+}
+body.theme-dark .item{border-color:var(--dpanel-border);background:var(--dpanel)}
+.item:hover{background:var(--hover);box-shadow:0 4px 12px color-mix(in srgb,currentColor 18%,transparent)}
+body.theme-dark .item:hover{background:color-mix(in srgb,#fff 4%,var(--dpanel));box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.item.drag-over{outline:2px dashed var(--primary);outline-offset:2px}
+.item.folder{background:color-mix(in srgb,#ffcc00 6%, var(--panel))}
+body.theme-dark .item.folder{background:color-mix(in srgb,#ffcc00 8%, var(--dpanel))}
+.item .icon{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-weight:600;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary)}
+.item .name{font-size:13px;line-height:1.2;word-break:break-word;border-radius:6px}
+.item .name[contenteditable="true"]{outline:1px dashed var(--primary);background:color-mix(in srgb,var(--primary) 10%,transparent);padding:2px 4px}
+
+/* ケバブ（中央寄せ修正） */
+.kebab{
+  width:28px;height:28px;padding:0;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  line-height:0;text-align:center;box-sizing:border-box
+}
+.kebab svg{width:16px;height:16px;display:block;margin:0;pointer-events:none}
+
+/* ドロップ位置のインジケータ（上/下） */
+.item.drop-before::before,
+.item.drop-after::after{
+  content:"";
+  position:absolute; left:8px; right:8px; height:0;
+  border-top:2px solid var(--primary);
+}
+.item.drop-before::before{ top:-1px; }  /* 上に挿入ライン */
+.item.drop-after::after{ bottom:-1px; } /* 下に挿入ライン */
+
+/* ===== コンテキストメニュー（エッジ検知＋シートfallback） ===== */
+.menu{
+  position:fixed; z-index:9999; background:var(--panel);
+  border:1px solid var(--panel-border); border-radius:8px; padding:6px;
+  box-shadow:0 8px 20px color-mix(in srgb,currentColor 20%,transparent);
+  max-width:220px; max-height:calc(100vh - 16px); overflow:auto;
+}
+body.theme-dark .menu{background:var(--dpanel);border-color:var(--dpanel-border);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.menu .title{font-size:12px;opacity:.75;margin:4px 0 6px}
+.menu button{width:190px;justify-content:flex-start}
+
+/* シートfallback */
+.menu-sheet{
+  left:0;right:0;bottom:0;border-top:1px solid var(--panel-border);
+  border-radius:12px 12px 0 0;max-width:none;width:auto;max-height:60vh;padding:10px
+}
+body.theme-dark .menu-sheet{border-top-color:var(--dpanel-border)}
+.menu-sheet .close-row{display:flex;justify-content:flex-end;margin-top:6px}
+
+/* ===== インポート画面（ツリーの見た目を整理） ===== */
+.tree .entry{margin:4px 0}
+.tree details{margin:2px 0}
+.tree summary{
+  list-style:none; cursor:pointer;
+  padding:6px 8px; border-radius:8px;
+  display:flex; align-items:center; gap:8px;
+  border:1px solid var(--panel-border); background:var(--panel);
+  transition:background .12s,border-color .12s,box-shadow .12s
+}
+body.theme-dark .tree summary{border-color:var(--dpanel-border);background:var(--dpanel)}
+.tree summary:hover{background:var(--hover);box-shadow:0 2px 8px color-mix(in srgb,currentColor 10%,transparent)}
+body.theme-dark .tree summary:hover{background:color-mix(in srgb,#fff 4%,var(--dpanel));box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.tree summary::marker{content:""}
+.tree summary .summary-title{flex:1;display:flex;align-items:center;gap:8px}
+.tree .children{margin-left:16px; padding-left:10px; border-left:1px dashed var(--panel-border)}
+body.theme-dark .tree .children{border-left-color:var(--dpanel-border)}
+
+.tree .leaf-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 8px; border:1px solid var(--panel-border); border-radius:8px; background:var(--panel);
+  margin-top:6px; transition:background .12s,box-shadow .12s,border-color .12s
+}
+body.theme-dark .tree .leaf-row{border-color:var(--dpanel-border);background:var(--dpanel)}
+.tree .leaf-row:hover{background:var(--hover);box-shadow:0 2px 8px color-mix(in srgb,currentColor 10%,transparent)}
+body.theme-dark .tree .leaf-row:hover{background:color-mix(in srgb,#fff 4%,var(--dpanel));box-shadow:0 4px 12px rgba(0,0,0,.3)}
+
+.icon-mini{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;padding:0}
+.icon-mini svg{pointer-events:none}
+
+
+/* ===== Forgot PIN & Modal (追加) ===== */
+#bv-forgot { margin-top: 10px; }
+#bv-forgot > summary {
+  list-style: none; cursor: pointer; padding: 8px 10px; border-radius: 10px;
+  border: 1px solid var(--panel-border, #e5e8ef);
+  background: var(--panel, #fff); user-select: none;
+}
+#bv-forgot[open] > summary { background: var(--hover, #f1f3f7); }
+#bv-forgot .bv-forgot-body { padding: 10px 2px 0; }
+
+#bv-reset-modal.bv-hidden { display: none; }
+#bv-reset-modal{
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.4); display: grid; place-items: center;
+}
+#bv-reset-modal .bv-dialog{
+  width: min(420px, calc(100% - 28px));
+  background: var(--panel, #fff);
+  border: 1px solid var(--panel-border, #e5e8ef);
+  border-radius: 14px; padding: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+#bv-reset-modal h2{ font-size: 16px; margin: 0 0 8px; }
+#bv-reset-modal p{ margin: 0 0 12px; }
+
+
+
+/* ==========================================================================
+   BookmarkVault UI – Consolidated tweaks (2025-09-12)
+   Spec:
+   - Baseline 12px
+   - Control heights 36px (12×3)
+   - Setup header: [Title | Inline Msg] in row 1 (CSS only, no HTML change)
+   - Inputs full-width; Save button intrinsic width (left aligned)
+   - Section visibility respects [hidden]; grid only when visible
+   - All vertical rhythm via row-gap:12px (no stacked margins)
+   - C(確認)↔保存間も12px（row-gapのみで制御）
+   - MSG lines: no extra height; empty ⇒ display:none
+   - Locked section (“PIN を入力” ↔ “PINを忘れた場合”) gap = 12px
+   - Card top/bottom paddings = 12px (D=12px)
+   ========================================================================== */
+
+:root{
+  --bv-base: 12px;                     /* Baseline unit */
+  --bv-row: calc(var(--bv-base) * 3);  /* Control height = 36px */
+  --bv-gap: var(--bv-base);            /* Default gap = 12px */
+}
+
+/* Card vertical paddings unified to 12px (D = 12px comes from .card) */
+.card{
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+/* ------------------------------
+   Setup section (PIN 設定)
+   ------------------------------ */
+
+/* Visibility: obey [hidden] */
+section#setup[hidden]{ display:none !important; }
+section#setup:not([hidden]){
+  display: grid;                        /* only when visible */
+  grid-template-columns: auto 1fr;      /* [Title | Msg] */
+  grid-auto-rows: min-content;
+  column-gap: var(--bv-gap);
+  row-gap: var(--bv-gap);
+  align-content: start;
+  padding-bottom: 0;                    /* avoid stacking with .card */
+}
+
+/* Title on row 1 col 1 */
+section#setup > h1{
+  grid-column: 1 / 2;
+  grid-row: 1;
+  margin: 0;
+  min-height: var(--bv-row);
+  line-height: var(--bv-row);
+  align-self: center;
+}
+
+/* Inline message on row 1 col 2 (right side), trimmed style */
+section#setup > #setup-msg{
+  grid-column: 2 / 3;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+  margin: 0;
+  min-height: 0;
+  line-height: 1.2;
+  font-size: .92rem;
+  color: #d92d20;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Controls sizing & spanning */
+section#setup > input[type="password"],
+section#setup > input[type="text"],
+section#setup > select{
+  grid-column: 1 / -1;
+  height: var(--bv-row);
+  margin: 0;
+  line-height: calc(var(--bv-row) - 2px);
+}
+
+/* Save button: intrinsic width (left), not full-width */
+section#setup > #setup-save{
+  grid-column: 1 / 2;                  /* do not span to col 2 */
+  height: var(--bv-row);
+  margin: 0;
+  line-height: calc(var(--bv-row) - 2px);
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding-left: 16px;
+  padding-right: 16px;
+  justify-self: start;
+}
+
+/* Manage spacing exclusively via row-gap (no half-gap margins) */
+section#setup > *{
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+/* ------------------------------
+   Locked section（PIN解除）
+   ------------------------------ */
+
+section#locked[hidden]{ display:none; }
+section#locked:not([hidden]){
+  display: grid;
+  grid-auto-rows: min-content;
+  row-gap: var(--bv-gap);               /* 12px between #pin and details */
+  align-content: start;
+}
+
+/* Locked controls sizing */
+section#locked > #pin{
+  height: var(--bv-row);
+  margin: 0;
+  line-height: calc(var(--bv-row) - 2px);
+}
+section#locked > #lock-msg{
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+section#locked > details,
+section#locked > details > summary{
+  margin: 0;
+}
+
+/* ------------------------------
+   MSG handling (empty ⇒ no space)
+   ------------------------------ */
+
+#setup-msg:empty,
+#lock-msg:empty,
+.msg:empty{ display: none; }
+
+#setup-msg,
+#lock-msg,
+.msg{
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}

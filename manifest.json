@@ -1,0 +1,29 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+  "name": "Bookmark Vault",
+  "version": "1.0.0",
+  "description": "PINロック付きの独立ブックマーク管理。ポップアップ内だけで管理可能で、Chromeのブックマークからの取り込みにも対応。",
+  "action": {
+    "default_title": "Bookmark Vault",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icon/icon16.png",
+    "32": "icon/icon32.png",
+    "48": "icon/icon48.png",
+    "64": "icon/icon64.png",
+    "128": "icon/icon128.png",
+    "256": "icon/icon256.png"
+  },
+  "permissions": [
+    "storage",
+    "bookmarks",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}

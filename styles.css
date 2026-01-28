@@ -1,0 +1,129 @@
+
+
+
+/* === URL truncation for long links (import/list) === */
+#import .url,
+#chrome-import .url,
+.card .url,
+.url.truncate,
+.url-clip {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-width: 100%;
+}
+
+/* Flex containers must allow shrink for ellipsis to work */
+#import .row > .url,
+#import .line > .url,
+.card .url,
+#listContainer .url {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/* Optional: show full on hover via title attribute; visually keep single-line */
+
+
+/* === v1.0.9: Long URL truncation hardening === */
+
+/* Ellipsis for URL elements (div.url or a.url) and nested anchors */
+a.url,
+.url a,
+.url {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Import rows: allow the URL cell to shrink within flex */
+#chrome-import .row,
+#import .row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#chrome-import .row > .url,
+#import .row > .url {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#chrome-import .row > *:not(.url),
+#import .row > *:not(.url) {
+  flex: 0 0 auto;
+}
+
+/* Cards/list items: same shrink rule */
+.card .url,
+#listContainer .url {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+
+/* === v1.0.10: Chrome import long-URL clamp (scoped) === */
+#chrome-import .row { display: flex; align-items: center; gap: 8px; }
+#chrome-import .row > .url-cell { flex: 1 1 auto; min-width: 0; }
+#chrome-import .row > .url-cell > a.url-clip {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  min-width: 0;
+}
+/* Generic fallback: any .url-clip behaves the same */
+.url-clip { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; max-width:100%; }
+
+
+/* === v1.0.11: Structural truncation for import rows === */
+/* Assume each row has 3 direct children: [label] [URL anchor or container] [button] */
+#chrome-import .row,
+#import .row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 8px;
+}
+#chrome-import .row > :nth-child(2),
+#import .row > :nth-child(2) {
+  min-width: 0; /* allow shrink */
+}
+#chrome-import .row > :nth-child(2) a,
+#import .row > :nth-child(2) a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Fallback: any immediate child anchor inside containers under #chrome-import/#import gets ellipsis */
+#chrome-import a, #import a {
+  max-width: 100%;
+}
+
+
+/* === v1.0.12: Generic class-based truncation for import rows === */
+#chrome-import .bv-row, #import .bv-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 8px;
+}
+#chrome-import .bv-row > .bv-urlcell, #import .bv-row > .bv-urlcell {
+  min-width: 0;
+}
+#chrome-import .bv-row .bv-url, #import .bv-row .bv-url {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  min-width: 0;
+}

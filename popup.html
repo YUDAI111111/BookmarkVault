@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Bookmark Vault</title>
+<meta name="app-version" content="1.0.0">
+<link href="popup.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="share.css">
+  <script src="popup-guard.js"></script>
+</head>
+<!-- VERSION: 1.0.0 (2025-09-12) -->
+<body class="theme-light">
+<div id="app">
+<!-- 初期設定 -->
+<section class="card" hidden="" id="setup">
+<h1>PIN 設定</h1>
+<input autocomplete="new-password" id="setup-pin" placeholder="PIN" type="password"/>
+<input autocomplete="new-password" id="setup-pin2" placeholder="PIN（確認）" type="password"/>
+<button class="primary" id="setup-save">保存</button>
+<p class="msg" id="setup-msg"></p>
+</section>
+<!-- ロック（入力欄のみ） -->
+<section class="card" hidden="" id="locked">
+<input autocomplete="current-password" id="pin" placeholder="PIN を入力" type="password"/>
+<p class="msg" id="lock-msg"></p>
+<details class="forgot" id="bv-forgot">
+<summary>PINを忘れた場合</summary>
+<div class="bv-forgot-body">
+<button class="danger" id="bv-btn-reset" type="button">PINを削除</button>
+<div class="muted small">※ PINを削除すると保存したブックマークと設定も削除されます。</div>
+</div>
+</details>
+
+</section>
+<!-- 設定 -->
+<section class="card" hidden="" id="settings">
+<div class="sticky-top">
+<button aria-label="一覧に戻る" class="ghost" id="back-to-list" title="一覧に戻る">← 戻る</button>
+<h1>設定</h1>
+</div>
+<label class="field">テーマ
+        <select id="theme">
+<option value="light">ライト</option>
+<option value="dark">ダーク</option>
+</select>
+</label>
+<label class="field"><input id="showSearch" type="checkbox"/> 検索欄を表示する</label>
+<label class="field">文字高さ（行間）
+        <input id="lineHeight" max="3" min="1" step="0.1" type="range"/>
+</label>
+<label class="field">自動クローズ秒数
+        <input id="autoClose" max="120" min="5" step="5" type="range"/>
+</label>
+<p class="muted" id="settings-preview">プレビュー</p>
+
+</section>
+<!-- ブックマーク一覧（Vault） -->
+<section class="card" hidden="" id="list">
+<header class="row between">
+<div class="row gap">
+<!-- アイコンのみ操作 -->
+<button aria-label="このページを追加" class="icon-btn primary" id="add-current" title="このページを追加">
+<svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18">
+<path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
+</svg>
+</button>
+<button aria-label="新しいフォルダ" class="icon-btn" id="new-folder" title="新しいフォルダ">
+<svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18">
+<path d="M10 4l2 2h8a2 2 0 012 2v1H4V6a2 2 0 012-2h4zm12 6v8a2 2 0 01-2 2H6a2 2 0 01-2-2V10h18z" fill="currentColor"></path>
+</svg>
+</button>
+<button aria-label="Chromeから取り込み" class="icon-btn" id="import-chrome" title="Chromeから取り込み">
+<svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18">
+<!-- トレイ -->
+<path d="M5 20h14v-2H5v2z" fill="currentColor"></path>
+<!-- 下向き矢印（インポート） -->
+<path d="M11 3h2v8h3l-4 4-4-4h3z" fill="currentColor"></path>
+</svg>
+</button>
+</div>
+<div class="row gap">
+<button aria-label="設定" class="icon-btn" id="open-settings" title="設定画面を開く">
+<svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18">
+<path d="M19.14,12.94a7.43,7.43,0,0,0,.05-.94,7.43,7.43,0,0,0-.05-.94l2.11-1.65a.5.5,0,0,0,.12-.64l-2-3.46a.5.5,0,0,0-.6-.22l-2.49,1a7.28,7.28,0,0,0-1.63-.94l-.38-2.65A.5.5,0,0,0,12,1.5H10a.5.5,0,0,0-.5.42L9.12,4.57a7.28,7.28,0,0,0-1.63.94l-2.49-1a.5.5,0,0,0-.6.22l-2,3.46a.5.5,0,0,0,.12.64L3.65,11.06a7.43,7.43,0,0,0-.05.94,7.43,7.43,0,0,0,.05.94L1.54,14.59a.5.5,0,0,0-.12.64l2,3.46a.5.5,0,0,0,.6.22l2.49-1a7.28,7.28,0,0,0,1.63.94l.38,2.65A.5.5,0,0,0,10,22.5h2a.5.5,0,0,0,.5-.42l.38-2.65a7.28,7.28,0,0,0,1.63-.94l2.49,1a.5.5,0,0,0,.6-.22l2-3.46a.5.5,0,0,0,.12-.64ZM11,15.5A3.5,3.5,0,1,1,14.5,12,3.5,3.5,0,0,1,11,15.5Z" fill="currentColor"></path>
+</svg>
+</button>
+<button aria-label="ロック" class="icon-btn" id="relock" title="ロックをかける">
+<svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18">
+<path d="M12 2a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm-3 8V7a3 3 0 016 0v3H9z" fill="currentColor"></path>
+</svg>
+</button>
+</div>
+</header>
+<!-- パンくず＋検索（検索は設定で表示切替） -->
+<div class="row between crumbs-wrap">
+<div class="crumbs" id="crumbs"></div>
+<div class="search-wrap" id="search-wrap">
+<input id="search" placeholder="検索（タイトル/URL）">
+</input></div>
+</div>
+<div class="list panel" id="listContainer"></div>
+<p class="muted center" hidden="" id="empty">まだブックマークがありません。</p>
+</section>
+<!-- Chrome既存ブックマーク表示（取り込み） -->
+<section class="card" hidden="" id="import">
+<div class="sticky-top">
+<button aria-label="一覧に戻る" class="ghost" id="back-to-list-from-import" title="一覧に戻る">← 戻る</button>
+<h1>Chromeブックマーク</h1>
+</div>
+<div class="tree panel" id="chrome-tree"></div>
+</section>
+</div>
+<script src="popup-shim.js"></script>
+  <script src="popup.js" type="module"></script>
+
+<div aria-labelledby="bv-reset-title" aria-modal="true" class="bv-hidden" id="bv-reset-modal" role="dialog">
+<div class="bv-dialog" role="document">
+<h2 id="bv-reset-title">PINを削除しますか？</h2>
+<p>PINを削除すると、保存されたブックマークと設定はすべて消去されます。この操作は取り消せません。</p>
+<div class="row between mt">
+<button class="ghost" id="bv-btn-cancel" type="button">キャンセル</button>
+<button class="danger" id="bv-btn-confirm" type="button">PINとデータを削除</button>
+</div>
+</div>
+</div>
+  <script type="module" src="share-init.js"></script>
+</body>
+</html>
